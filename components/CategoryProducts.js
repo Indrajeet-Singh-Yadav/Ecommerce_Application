@@ -14,16 +14,16 @@ const CategoryProducts = ({ route, navigation }) => {
   const [sortBy, setSortBy] = useState(null);
   const isFocused = useIsFocused();
   const noc = Math.floor(screenWidth / 200);
-   const products = useSelector(state => state.products.products[0]);
+  const products = useSelector(state => state.products.products[0]);
 
 
 
   useEffect(() => {
-    if (isFocused&&products.length>0) {
+    if (isFocused && products.length > 0) {
       getData();
     }
 
-  }, [sortBy,products,isFocused]);
+  }, [sortBy, products, isFocused]);
 
 
 
@@ -33,11 +33,11 @@ const CategoryProducts = ({ route, navigation }) => {
     try {
       if (sortBy != null) {
 
-       if (sortBy === 'asc') {
+        if (sortBy === 'asc') {
 
           const sData = [...data].sort((a, b) => a.price - b.price);
           setData(sData);
-          
+
         }
 
         if (sortBy === 'desc') {
@@ -47,7 +47,7 @@ const CategoryProducts = ({ route, navigation }) => {
 
       } else {
 
-        const fdata=[...products].filter(product => 
+        const fdata = [...products].filter(product =>
           product.category == item);
         setData(fdata);
       }
@@ -135,15 +135,15 @@ const CategoryProducts = ({ route, navigation }) => {
       </View>
       <ScrollView>
 
-      <View>
+        <View>
 
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          numColumns={noc}
-        />
-      </View>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            numColumns={noc}
+          />
+        </View>
       </ScrollView>
 
     </SafeAreaView>
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center',
-    flex:1
+    flex: 1
 
   },
   container: {

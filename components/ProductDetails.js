@@ -21,6 +21,7 @@ const ProductDetails = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   const cartItem=cartItems.find(cart=>cart.id===item.id);
   const quantity=cartItem?.quantity||0;
+  const [isBtnLoading,setisBtnLoading]=useState(false);
 
   useEffect(() => {
    checkFavItem();
@@ -73,23 +74,6 @@ const ProductDetails = ({ route, navigation }) => {
 
     } catch (error) {
       console.error("Error in addToFav:", error);
-    }
-  };
-
-
-
-  const addInCart=()=>{dispatch(addItemToCart(item))}
-
-   const updateIncreaseQuantity = () => {
-    dispatch(updateItemQuantity({ id: item.id, quantity: quantity + 1 }));
-  };
-
-
-  const updateDecreaseQuantity = () => {
-    if (quantity > 1) {
-      dispatch(updateItemQuantity({ id: item.id, quantity: quantity - 1 }));
-    } else {
-      dispatch(removeItemFromCart(item.id));
     }
   };
 
@@ -218,33 +202,26 @@ const ProductDetails = ({ route, navigation }) => {
         </View>
       </ScrollView>
       <View style={{height: 60,justifyContent: 'center',alignItems: 'center',}}>
-      {
-        quantity===0?(
+    
           <TouchableOpacity style={{backgroundColor:'red',paddingVertical: 12,paddingHorizontal: 40,borderRadius: 30,}} 
-          onPress={() => {       
-           addInCart();
-        }}>
+          disabled={isBtnLoading}
+          onPress={() =>{
+            setisBtnLoading(true);
+            
+            if(quantity===0){
+              
+              dispatch(addItemToCart(item));
+              setisBtnLoading(false);
+            }
+            else{
+              dispatch(updateItemQuantity({ id: item.id, quantity: quantity + 1 }));
+              setisBtnLoading(false);
+            }
+          }}>
           <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Add to Cart</Text>
           </TouchableOpacity>
-        ):(<View style={{ flexDirection: 'row', borderRadius: 20, elevation: 2, width: 120, backgroundColor: '#D0B9A7', justifyContent: 'center',marginBottom:20 }}>
-                      <TouchableOpacity onPress={() => {
-                        updateDecreaseQuantity();
-                      }}>
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'black', paddingHorizontal: 15 }}>-</Text>
-                      </TouchableOpacity>
-          
-                      <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'black' }}>{quantity}</Text>
-          
-                      <TouchableOpacity
-                        onPress={() => {
-                          updateIncreaseQuantity();
-                        }}
-          
-                      >
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'black', paddingHorizontal: 15 }}>+</Text>
-                      </TouchableOpacity>
-                    </View>)
-      }
+    
+      
         
           
        

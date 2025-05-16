@@ -1,4 +1,4 @@
-import { ActivityIndicator, Button,TextInput, Dimensions, FlatList, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { ActivityIndicator, Button, TextInput, Dimensions, FlatList, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,7 +12,7 @@ import { addProducts } from '../src/redux/slice/products';
 const Home = ({ navigation }) => {
 
   const screenWidth = Dimensions.get('screen').width;
-   const screenHeight = Dimensions.get('screen').height;
+  const screenHeight = Dimensions.get('screen').height;
   const [data, setData] = useState([]);
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,30 +20,30 @@ const Home = ({ navigation }) => {
   const [sortBy, setSortBy] = useState(null);
   const isFocused = useIsFocused();
   const noc = Math.floor(screenWidth / 200);
-  const[searchQuery,setSearchQuery]=useState('');
-  const dispatch=useDispatch();
+  const [searchQuery, setSearchQuery] = useState('');
+  const dispatch = useDispatch();
   const products = useSelector(state => state.products.products[0]);
   const inputRef = useRef(null);
-  const [crossTapped,setCrossTapped]=useState(0);
-  const [itemsAvail,setitemsAvail]=useState(true);
+  const [crossTapped, setCrossTapped] = useState(0);
+  const [itemsAvail, setitemsAvail] = useState(true);
   useEffect(() => {
 
     if (isFocused) {
       getData();
     }
 
-  }, [sortBy,isLoading]);
+  }, [sortBy, isLoading]);
 
 
-const searchProducts=()=>{
+  const searchProducts = () => {
 
-  const filterData=products.filter((item)=>item.title.toLowerCase().includes(searchQuery));
-  setData(filterData);
-  if(filterData.length==0){
-    setitemsAvail(false);
+    const filterData = products.filter((item) => item.title.toLowerCase().includes(searchQuery));
+    setData(filterData);
+    if (filterData.length == 0) {
+      setitemsAvail(false);
+    }
+
   }
-
-}
 
   const getData = async () => {
 
@@ -54,7 +54,7 @@ const searchProducts=()=>{
 
           const sData = [...data].sort((a, b) => a.price - b.price);
           setData(sData);
-          
+
         }
 
         if (sortBy === 'desc') {
@@ -64,25 +64,25 @@ const searchProducts=()=>{
 
       } else {
 
-        if(crossTapped!=0){
+        if (crossTapped != 0) {
 
           searchProducts();
 
         }
-        if(sortBy==null&&crossTapped==0){
-        
-        let response = await fetch('https://dummyjson.com/products?limit=0');
-        let json = await response.json();
-        dispatch(addProducts(json.products));
-        setData(json.products);
-        const catg = json.products.reduce((unique, item) => {
-        if (!unique.includes(item.category)) {
-            unique.push(item.category);
+        if (sortBy == null && crossTapped == 0) {
+
+          let response = await fetch('https://dummyjson.com/products?limit=0');
+          let json = await response.json();
+          dispatch(addProducts(json.products));
+          setData(json.products);
+          const catg = json.products.reduce((unique, item) => {
+            if (!unique.includes(item.category)) {
+              unique.push(item.category);
+            }
+            return unique;
+          }, []);
+          setCategory(catg);
         }
-        return unique;
-        }, []);
-        setCategory(catg);
-      }
       }
 
 
@@ -148,45 +148,47 @@ const searchProducts=()=>{
 
       <View>
 
-       <View style={styles.header}>
-              
-             <View style={{flexDirection:'row',width:screenWidth*.85,height:40,marginHorizontal:5,marginTop:5}}>
-               <TextInput
-                 style={styles.searchInput}
-                 ref={inputRef}
-                 placeholder="Search products, brands & more..."
-                 placeholderTextColor={'black'}
-                 value={searchQuery}
-                 onChangeText={setSearchQuery}
-                 onSubmitEditing={
-                  ()=>{if(searchQuery.length>0){
-                       searchProducts();
-                       setCrossTapped(1);
-                  }
-                  }
+        <View style={styles.header}>
 
-                 }
-              
-               />
-                <TouchableOpacity onPress={()=>{
-                  setSearchQuery('');
-                  setData(products);
-                  inputRef.current.blur();
-                  setCrossTapped(0);
-                  setitemsAvail(true);
-                  
-                }} style={styles.icon}>
-                 {searchQuery.length>0&&<Ionicons style={{position:'absolute',top:10,right:15}} name="close" size={20} color="black" />}
-               </TouchableOpacity>
-               </View>
-               <TouchableOpacity onPress={()=>{if(searchQuery.length>0){
-                       searchProducts();
-                       setCrossTapped(1);
+          <View style={{ flexDirection: 'row', width: screenWidth * .85, height: 40, marginHorizontal: 5, marginTop: 5 }}>
+            <TextInput
+              style={styles.searchInput}
+              ref={inputRef}
+              placeholder="Search products, brands & more..."
+              placeholderTextColor={'black'}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              onSubmitEditing={
+                () => {
+                  if (searchQuery.length > 0) {
+                    searchProducts();
+                    setCrossTapped(1);
                   }
-                  }} style={styles.icon}>
-                 <Ionicons name="search" size={30} color="black" />
-               </TouchableOpacity>
-             </View>
+                }
+
+              }
+
+            />
+            <TouchableOpacity onPress={() => {
+              setSearchQuery('');
+              setData(products);
+              inputRef.current.blur();
+              setCrossTapped(0);
+              setitemsAvail(true);
+
+            }} style={styles.icon}>
+              {searchQuery.length > 0 && <Ionicons style={{ position: 'absolute', top: 10, right: 15 }} name="close" size={20} color="black" />}
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={() => {
+            if (searchQuery.length > 0) {
+              searchProducts();
+              setCrossTapped(1);
+            }
+          }} style={styles.icon}>
+            <Ionicons name="search" size={30} color="black" />
+          </TouchableOpacity>
+        </View>
         <View>
           <Text style={{ margin: 10, fontSize: 27, fontWeight: 'bold', color: 'black' }}>Categories</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 10 }}>
@@ -237,22 +239,22 @@ const searchProducts=()=>{
           </View>
         </View>
 
-        
+
 
         {
-          !itemsAvail?<View style={{flex:1,justifyContent:'center',alignItems:'center',height:screenHeight*.5}}><Text style={{fontSize:20,fontWeight:'800'}}>No Items Available for {searchQuery}</Text></View>
-          :(<FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          numColumns={noc}
-        />)
+          !itemsAvail ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: screenHeight * .5 }}><Text style={{ fontSize: 20, fontWeight: '800' }}>No Items Available for {searchQuery}</Text></View>
+            : (<FlatList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              numColumns={noc}
+            />)
         }
 
-       
-        
 
-        
+
+
+
       </View>
     </ScrollView>
 
@@ -308,7 +310,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-  //  paddingTop: StatusBar.currentHeight,
+    //  paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 10,
     backgroundColor: '#f8f8f8',
     height: 60,

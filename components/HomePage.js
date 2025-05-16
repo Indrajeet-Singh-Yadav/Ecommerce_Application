@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 
 
-const getTabBarIcon = (routeName, focused, color, size,cartCount) => {
+const getTabBarIcon = (routeName, focused, color, size, cartCount) => {
   let iconName;
 
   if (routeName === 'Home') {
@@ -48,9 +48,9 @@ const getTabBarIcon = (routeName, focused, color, size,cartCount) => {
 const HomePage = () => {
 
 
-   const cart = useSelector(state => state.cartItems.cartItems);
-   const cartCount=cart.length;
- 
+  const cart = useSelector(state => state.cartItems.cartItems);
+  const cartCount = cart.length;
+
   return (
 
 
@@ -60,7 +60,7 @@ const HomePage = () => {
 
       headerShown: true,
       headerRight: () => {
-        return <MaterialCommunityIcons  style={{ paddingHorizontal: 5, paddingTop: 5 }} name='logout' size={30} />
+        return <MaterialCommunityIcons style={{ paddingHorizontal: 5, paddingTop: 5 }} name='logout' size={30} />
       },
       //headerSearchBarOptions:route.name==='Home'?true:false,
       headerTitleAlign: 'center',
@@ -72,7 +72,7 @@ const HomePage = () => {
       tabBarActiveTintColor: 'red',
 
       tabBarIcon: ({ focused, color, size }) => {
-        return getTabBarIcon(route.name, focused, color, size,cartCount)
+        return getTabBarIcon(route.name, focused, color, size, cartCount)
       },
 
     })} >
@@ -88,7 +88,7 @@ export default HomePage
 
 
 const styles = StyleSheet.create({
-    countContainer: {
+  countContainer: {
     position: 'absolute',
     left: 12,
     top: -3,

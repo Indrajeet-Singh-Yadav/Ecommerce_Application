@@ -12,10 +12,10 @@ import { updateItemQuantity } from '../src/redux/slice/myCart'; // updated impor
 
 const CartItem = ({ item, navigation, onQuantityChange }) => {
 
-  const dispatch=useDispatch();
-   const cartItems = useSelector(state => state.cartItems.cartItems);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cartItems.cartItems);
 
-   const title=item.title.slice(0,20);
+  const title = item.title.slice(0, 20);
 
 
   useEffect(() => {
@@ -29,17 +29,17 @@ const CartItem = ({ item, navigation, onQuantityChange }) => {
 
 
 
-const updateQuantity = (newCount) => {
-  dispatch(updateItemQuantity({ id: item.id, quantity: newCount }));
-  setCount(newCount);
-  onQuantityChange(
-    cartItems.map(cartItem => 
-      cartItem.id === item.id 
-        ? { ...cartItem, quantity: newCount } 
-        : cartItem
-    )
-  );
-};
+  const updateQuantity = (newCount) => {
+    dispatch(updateItemQuantity({ id: item.id, quantity: newCount }));
+    setCount(newCount);
+    onQuantityChange(
+      cartItems.map(cartItem =>
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: newCount }
+          : cartItem
+      )
+    );
+  };
 
 
   const { width, height } = Dimensions.get('screen');
@@ -47,9 +47,9 @@ const updateQuantity = (newCount) => {
 
   //const title = (item.title).slice(0, 20);
 
-  const removeItem =  () => {
+  const removeItem = () => {
     dispatch(removeItemFromCart(item.id));
-   
+
 
   }
 
@@ -76,7 +76,7 @@ const updateQuantity = (newCount) => {
               if (count > 1) {
                 updateQuantity(count - 1);
               }
-              if(count==1){
+              if (count == 1) {
                 removeItem();
               }
             }}>
