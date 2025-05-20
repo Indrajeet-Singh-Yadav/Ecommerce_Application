@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "901539628749",
+    "project_id": "ecommerce-hub-168d0",
+    "storage_bucket": "ecommerce-hub-168d0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901539628749:android:2bd81269010f5c42e0cb84",
+        "android_client_info": {
+          "package_name": "com.ecommercehub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5MT7k1ejv_2jffYyaxgoPSl_OND5BQTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

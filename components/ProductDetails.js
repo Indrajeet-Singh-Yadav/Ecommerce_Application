@@ -17,12 +17,14 @@ const ProductDetails = ({ route, navigation }) => {
   const tp = Math.floor(item.price + (item.price * item.discountPercentage) / 100);
   const dispatch = useDispatch();
   const favItems = useSelector(state => state.favs.favs);
+    const products = useSelector(state => state.products.products[0]);
    const cartItems = useSelector(state => state.cartItems.cartItems);
   const isFocused = useIsFocused();
   const cartItem=cartItems.find(cart=>cart.id===item.id);
   const quantity=cartItem?.quantity||0;
   const [isBtnLoading,setisBtnLoading]=useState(false);
 
+  
   useEffect(() => {
    checkFavItem();
   }, [])

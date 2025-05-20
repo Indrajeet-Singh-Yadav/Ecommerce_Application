@@ -34,13 +34,20 @@ const Home = ({ navigation }) => {
 
   }, [sortBy, isLoading]);
 
+  
 
   const searchProducts = () => {
+     setData(products);
 
-    const filterData = products.filter((item) => item.title.toLowerCase().includes(searchQuery));
+    console.log("data", data);
+
+  
+    const filterData = products.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.description.toLowerCase().includes(searchQuery.toLowerCase()));
     setData(filterData);
     if (filterData.length == 0) {
       setitemsAvail(false);
+    }else{
+      setitemsAvail(true);
     }
 
   }
@@ -171,7 +178,7 @@ const Home = ({ navigation }) => {
             />
             <TouchableOpacity onPress={() => {
               setSearchQuery('');
-              setData(products);
+             setData(products);
               inputRef.current.blur();
               setCrossTapped(0);
               setitemsAvail(true);
@@ -182,8 +189,10 @@ const Home = ({ navigation }) => {
           </View>
           <TouchableOpacity onPress={() => {
             if (searchQuery.length > 0) {
+               // setData(products);
               searchProducts();
               setCrossTapped(1);
+              setitemsAvail(true);
             }
           }} style={styles.icon}>
             <Ionicons name="search" size={30} color="black" />

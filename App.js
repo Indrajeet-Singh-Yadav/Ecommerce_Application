@@ -1,5 +1,5 @@
 import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SplashScreen from './components/SplashScreen';
@@ -14,11 +14,57 @@ import CategoryProducts from './components/CategoryProducts';
 import { Provider } from 'react-redux';
 import {mystore,persistedStore} from './src/redux/store/myStore';
 import { PersistGate } from 'redux-persist/integration/react';
+import '@react-native-firebase/app';
+import messaging from '@react-native-firebase/messaging';
+import {PermissionsAndroid} from 'react-native';
 
+
+  
 
 const Stack=createNativeStackNavigator();
 
+
+
+
 const App = () => {
+
+  
+
+  useEffect(() => {
+    getFCMToken();
+   requestUserPermission();
+}, []);
+
+const requestUserPermission=async()=> {
+const granted = await PermissionsAndroid.request(
+  PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+);
+
+  if(granted===PermissionsAndroid.RESULTS.GRANTED){
+     
+    console.log("Permission Granted");
+  }
+  else{
+    console.log("Permission Not Granted");
+  }
+
+  
+
+     
+};
+
+
+
+const getFCMToken = async () => {
+  try {
+    const token = await messaging().getToken();
+    console.log('FCM Token:', token);
+  } catch (error) {
+    console.log('Error getting FCM token:', error);
+  }
+};
+
+
   return (
     <Provider store={mystore}>
     <PersistGate loading={null} persistor={persistedStore}>
